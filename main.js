@@ -85,9 +85,21 @@ class Team {
   }
 }
 
+e = document.getElementById("red")
+e.addEventListener("submit", definirTraveVermelho);
+
+
+function definirTraveVermelho(event){
+  event.preventDefault();
+  const elemento = document.getElementById("inp-verm-trave").value;
+  hVermelhoTrave = parseInt(elemento);
+  team_red = new Team(0, height/2 - 50, 30, hVermelhoTrave, "red");
+}
+
+
 const balls = [];
-let team_red = new Team(0, height/2 - 50, 30, 100, "red")
-let team_blue = new Team(width - 30, height/2 - 50, 30, 100, "blue")
+let team_red = new Team(0, height/2 - 50, 30, 50 , "red")
+let team_blue = new Team(width - 30, height/2 - 50, 30, 10, "blue")
 
 
 function start(){
@@ -143,3 +155,5 @@ function loop() {
 }
 
 loop();
+
+func
