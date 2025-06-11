@@ -24,6 +24,7 @@ class Ball {
   }
 
   draw() {
+  
     ctx.beginPath();
     ctx.fillStyle = this.color;
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -70,36 +71,54 @@ class Ball {
 }
 
 class Team {
-  constructor(x,y, w, h, color) {
-    this.name = color
-    this.x = x
-    this.y = y
-    this.w = w
-    this.h = h
-    this.color = color
+  constructor(x, w, h, color) {
+    this.name = color;
+    this.x = x;
+    this.w = w;
+    this.h = h;
+    this.color = color;
   }
 
   draw() {
+    const y = (height / 2) - (this.h / 2); // centraliza verticalmente
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x,this.y, this.w, this.h);
+    ctx.fillRect(this.x, y, this.w, this.h);
+  }
+
+  getY() {
+    return (height / 2) - (this.h / 2);
   }
 }
 
-e = document.getElementById("red")
-e.addEventListener("submit", definirTraveVermelho);
+T_vermelho = document.getElementById("red")
+T_vermelho.addEventListener("submit", definirTraveVermelho);
+T_azul = document.getElementById("blue")
+T_azul.addEventListener("submit", definirTraveAzul);
 
 
 function definirTraveVermelho(event){
   event.preventDefault();
   const elemento = document.getElementById("inp-verm-trave").value;
-  hVermelhoTrave = parseInt(elemento);
-  team_red = new Team(0, height/2 - 50, 30, hVermelhoTrave, "red");
+  const hVermelhoTrave = parseInt(elemento);
+  if (!isNaN(hVermelhoTrave)) {
+    team_red = new Team(0, 30, hVermelhoTrave, "red");
+  }
+}
+
+function definirTraveAzul(event){
+  event.preventDefault();
+  const elemento = document.getElementById("inp-azul-trave").value;
+  const hAzulTrave = parseInt(elemento);
+  if (!isNaN(hAzulTrave)) {
+    team_blue = new Team(width - 30, 30, hAzulTrave, "blue");
+  }
 }
 
 
+
 const balls = [];
-let team_red = new Team(0, height/2 - 50, 30, 50 , "red")
-let team_blue = new Team(width - 30, height/2 - 50, 30, 10, "blue")
+let team_red = new Team(0, 30, 50, "red"); 
+let team_blue = new Team(width - 30, 30, 50, "blue"); 
 
 
 function start(){
@@ -155,5 +174,3 @@ function loop() {
 }
 
 loop();
-
-func
