@@ -69,14 +69,22 @@ class Ball {
     }
   }
 }
+const VcH = 50;
+const VcW = 30;
+const VcB = 1;
+
+const AcH = 50;
+const AcW = 30;
+const AcB = 1;
 
 class Team {
-  constructor(x, w, h, color) {
+  constructor(x, w, h, color, balls_count = 3) {
     this.name = color;
     this.x = x;
     this.w = w;
     this.h = h;
     this.color = color;
+    this.balls_count = balls_count;
   }
 
   draw() {
@@ -91,9 +99,34 @@ class Team {
 }
 
 T_vermelho = document.getElementById("red")
-T_vermelho.addEventListener("submit", definirTraveVermelho);
+T_vermelho.addEventListener("click", definirTraveVermelho);
 T_azul = document.getElementById("blue")
-T_azul.addEventListener("submit", definirTraveAzul);
+T_azul.addEventListener("click", definirTraveAzul);
+B_vermelho = document.getElementById("bolaV");
+B_vermelho.addEventListener("click", definirBolasVermelhas);
+B_Azul = document.getElementById("bolaA");
+B_Azul.addEventListener("click", definirBolasAzuis);
+
+
+function definirBolasAzuis(event){
+  event.preventDefault()
+  const elemento = document.getElementById("n-bolas-a").value;
+  const bAzulBola = parseInt(elemento);
+  if(!isNaN(bAzulBola)){
+    team_blue = new Team(AcX, AcW, AcH, "blue" , AcB)
+  }
+}
+
+
+function definirBolasVermelhas(event){
+  event.preventDefault();
+  const elemento = document.getElementById("n-bolas-v").value;
+  const bVermelhoBola = parseInt(elemento);
+  if (!isNaN(bVermelhoBola)) {
+    team_red = new Team(0, VcW, VcH, "red", bVermelhoBola);
+  }
+}
+
 
 
 function definirTraveVermelho(event){
@@ -101,7 +134,7 @@ function definirTraveVermelho(event){
   const elemento = document.getElementById("inp-verm-trave").value;
   const hVermelhoTrave = parseInt(elemento);
   if (!isNaN(hVermelhoTrave)) {
-    team_red = new Team(0, 30, hVermelhoTrave, "red");
+    team_red = new Team(0 , VcW, VcH, "red", VcB);
   }
 }
 
@@ -117,11 +150,12 @@ function definirTraveAzul(event){
 
 
 const balls = [];
-let team_red = new Team(0, 30, 50, "red"); 
-let team_blue = new Team(width - 30, 30, 50, "blue"); 
+let team_red = new Team(0, VcW, VcH, "red", VcB); 
+let team_blue = new Team(width - AcW, AcW, AcH, "blue", AcB);
 
 
 function start(){
+  balls.length = 0
   for (let i = 0; i < team_red.balls_count; i++) {
     const size = random(10, 20);
     const ball_red = new Ball(
@@ -152,6 +186,9 @@ function start(){
   }
   
 }
+const botaoStart = document.getElementById("buttonStart");
+botaoStart.addEventListener("click", start);
+
 
 
 

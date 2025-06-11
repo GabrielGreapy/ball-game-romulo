@@ -3,34 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title> </title>
+    <title>Simulação de Campo</title>
     <style>
-
+      canvas {
+        display: block;
+        background-color: green;
+        width: 100vw;
+        height: 100vh;
+      }
     </style>
   </head>
 
   <body>
-    <h1> Versus </h1>
+    <h1>Versus</h1>
     <main>
       <form id="red">
         <div>Time 1</div>
-        <input type="number"
-        id='inp-verm-trave'
-        >
+        <input type="number" id="inp-verm-trave">
         <input type="submit" value="Trave vermelho">
+        <input type="number" id="n-bolas-v">
+        <input type="submit" value="Bolas vermelhas" id="bolaV">
       </form>
+
       <div id="canvas">
         <canvas></canvas>
         <input type="button" value="start" id="buttonStart">
       </div>
+
       <form id="blue">
-          <div>Time 2</div>
-        <input type="number"
-        id="inp-azul-trave">
+        <div>Time 2</div>
+        <input type="number" id="inp-azul-trave">
         <input type="submit" value="Trave Azul">
+        <input type="number" id="n-bolas-a">
+        <input type="submit" value="Bolas Azuis" id="bolaA">
       </form>
     </main>
-    
 
     <script src="main.js"></script>
   </body>
