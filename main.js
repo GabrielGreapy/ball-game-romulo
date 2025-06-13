@@ -128,9 +128,41 @@ function resetGame() {
   document.getElementById("inp-azul-trave").value = "";
   document.getElementById("n-bolas-v").value = "";
   document.getElementById("n-bolas-a").value = "";
+  
 }
+window.addEventListener("gol", (event) => {
+  const time = event.detail.time;
+  const mensagem = document.getElementById("mensagemGol");
+
+  if (time === "vermelho") {
+    golsVermelho++;
+    document.getElementById("placar-vermelho").textContent = golsVermelho;
+    mensagem.textContent = "GOOOOL do VERMELHO!";
+  } else {
+    golsAzul++;
+    document.getElementById("placar-azul").textContent = golsAzul;
+    mensagem.textContent = "GOOOOL do AZUL!";
+  }
+
+  // Esconde a mensagem depois de 2 segundos
+  setTimeout(() => {
+    mensagem.textContent = "";
+  }, 2000);
+
+  // Vitória com 10 gols
+  if (golsVermelho === 10) {
+    alert("Time VERMELHO venceu com 10 gols!");
+    resetGame();
+  } else if (golsAzul === 10) {
+    alert("Time AZUL venceu com 10 gols!");
+    resetGame();
+  }
+});
 
 document.getElementById("resetButton").addEventListener("click", resetGame);
+
+let golsVermelho = 0;
+let golsAzul = 0;
 
 
 loop();
