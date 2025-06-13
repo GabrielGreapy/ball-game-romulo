@@ -105,5 +105,32 @@ function loop() {
 
   requestAnimationFrame(loop);
 }
+function resetGame() {
+  // Restaurar valores padrão
+  velocidadeVermelho = 20;
+  velocidadeAzul = 20;
+
+  // Restaurar traves
+  team_red = new Team(0, (height - VcH) / 2, VcW, VcH, "red", VcB);
+  team_blue = new Team(width - AcW, (height - AcH) / 2, AcW, AcH, "blue", AcB);
+
+  // Restaurar contagem de bolas
+  team_red.balls_count = VcB;
+  team_blue.balls_count = AcB;
+
+  // Limpar bolas existentes
+  balls.length = 0;
+
+  // Resetar inputs visuais (opcional)
+  document.getElementById("inp-verm-velocidade").value = "";
+  document.getElementById("inp-azul-velocidade").value = "";
+  document.getElementById("inp-verm-trave").value = "";
+  document.getElementById("inp-azul-trave").value = "";
+  document.getElementById("n-bolas-v").value = "";
+  document.getElementById("n-bolas-a").value = "";
+}
+
+document.getElementById("resetButton").addEventListener("click", resetGame);
+
 
 loop();
