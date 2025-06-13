@@ -12,7 +12,6 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
 class Ball {
   constructor(x, y, velX, velY, color, size) {
     this.x = x;
@@ -69,18 +68,22 @@ class Ball {
     }
   }
 }
-const VcH = 50;
+const VcH = 20;
 const VcW = 30;
 const VcB = 1;
 
-const AcH = 50;
+const AcH = 20;
 const AcW = 30;
 const AcB = 1;
 
+const VcY = (height - VcH) / 2;
+const AcY = (height - AcH)/ 2;
+
 class Team {
-  constructor(x, w, h, color, balls_count = 3) {
+  constructor( x, y,  w, h, color, balls_count) {
     this.name = color;
     this.x = x;
+    this.y = y;
     this.w = w;
     this.h = h;
     this.color = color;
@@ -88,14 +91,10 @@ class Team {
   }
 
   draw() {
-    const y = (height / 2) - (this.h / 2); // centraliza verticalmente
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, y, this.w, this.h);
+    ctx.fillRect(this.x, this.y, this.w, this.h);
   }
 
-  getY() {
-    return (height / 2) - (this.h / 2);
-  }
 }
 
 T_vermelho = document.getElementById("red")
@@ -108,12 +107,43 @@ B_Azul = document.getElementById("bolaA");
 B_Azul.addEventListener("click", definirBolasAzuis);
 
 
+let velocidadeVermelho = 20;
+let velocidadeAzul = 20;
+
+
+velocidadebolaAzul = document.getElementById("inp-azul-velocidade")
+velocidadebolaAzul.addEventListener("click", definirVelocidadeAzul)
+
+
+function definirVelocidadeAzul(event){
+  event.preventDefault()
+  const elemento = document.getElementById("inp-azul-velocidade").value
+  const bolaAzulVelocidade = parseInt(elemento)
+  if(!isNaN(bolaAzulVelocidade)){
+    velocidadeAzul = bolaAzulVelocidade
+  }
+}
+
+velocidadebolaVerm = document.getElementById("inp-verm-velocidade")
+velocidadebolaVerm.addEventListener("click", definirVelocidadeVerm)
+
+
+function definirVelocidadeVerm(event){
+  event.preventDefault()
+  const elemento = document.getElementById("inp-verm-velocidade").value
+  const bolaVermVelocidade = parseInt(elemento)
+  if(!isNaN(bolaVermVelocidade)){
+    velocidadeVermelho = bolaVermVelocidade;
+
+  }
+}
+
 function definirBolasAzuis(event){
   event.preventDefault()
   const elemento = document.getElementById("n-bolas-a").value;
   const bAzulBola = parseInt(elemento);
   if(!isNaN(bAzulBola)){
-    team_blue = new Team(AcX, AcW, AcH, "blue" , AcB)
+    team_blue = new Team(0 , AcY, AcW, AcH, "blue" , bAzulBola)
   }
 }
 
@@ -123,7 +153,7 @@ function definirBolasVermelhas(event){
   const elemento = document.getElementById("n-bolas-v").value;
   const bVermelhoBola = parseInt(elemento);
   if (!isNaN(bVermelhoBola)) {
-    team_red = new Team(0, VcW, VcH, "red", bVermelhoBola);
+    team_red = new Team(0, VcY, VcW, VcH, "red", bVermelhoBola);
   }
 }
 
@@ -134,7 +164,8 @@ function definirTraveVermelho(event){
   const elemento = document.getElementById("inp-verm-trave").value;
   const hVermelhoTrave = parseInt(elemento);
   if (!isNaN(hVermelhoTrave)) {
-    team_red = new Team(0 , VcW, VcH, "red", VcB);
+    const y = (height - hVermelhoTrave) / 2;
+    team_red = new Team(0 , y, VcW, hVermelhoTrave, "red", VcB);
   }
 }
 
@@ -143,15 +174,16 @@ function definirTraveAzul(event){
   const elemento = document.getElementById("inp-azul-trave").value;
   const hAzulTrave = parseInt(elemento);
   if (!isNaN(hAzulTrave)) {
-    team_blue = new Team(width - 30, 30, hAzulTrave, "blue");
+    const y = (height - hAzulTrave) / 2;
+    team_blue = new Team(width - 30, y, AcW, hAzulTrave, "blue", AcB);
   }
 }
 
 
 
 const balls = [];
-let team_red = new Team(0, VcW, VcH, "red", VcB); 
-let team_blue = new Team(width - AcW, AcW, AcH, "blue", AcB);
+let team_red = new Team( 0, VcY, VcW, VcH, "red", VcB); 
+let team_blue = new Team( width - AcW, AcY  ,AcW, AcH, "blue", AcB);
 
 
 function start(){
@@ -163,8 +195,8 @@ function start(){
       // away from the edge of the canvas, to avoid drawing errors
       random(0 + size, width - size),
       random(0 + size, height - size),
-      random(1,20),
-      random(-7, 7),
+      velocidadeVermelho,
+      velocidadeVermelho,
       "red",
       size
     );
@@ -177,8 +209,8 @@ function start(){
       // away from the edge of the canvas, to avoid drawing errors
       random(0 + size, width - size),
       random(0 + size, height - size),
-      random(1,20),
-      random(-7, 7),
+      velocidadeAzul,
+      velocidadeAzul,
       "blue",
       size
     );
